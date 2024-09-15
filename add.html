@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style_add.css">
+    <title>Add New User</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New User</h1>
+        <form id="userForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="fullname">Full Name:</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Add User</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        const urlUsers = "https://66a5bacc23b29e17a1a0c825.mockapi.io/api/users"
+
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Lấy các giá trị từ biểu mẫu
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const fullname = document.getElementById('fullname').value;
+            const age = document.getElementById('age').value;
+            const role = document.getElementById('role').value;
+
+            // Tạo đối tượng người dùng từ các giá trị
+            const user = {
+                username,
+                password,
+                fullname,
+                age,
+                role
+            };
+
+            // Truyền đường dẫn và param
+            handleCreateAPIUser(urlUsers, user)
+        });
+
+        async function handleCreateAPIUser(url, params) {
+            try {
+                const data = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(params),
+                });
+
+                const res = await data.json()
+                console.log(res)
+            } catch (error) {
+                console.error(error)
+            } finally {
+                window.location.href = "index.html"
+            }
+        }
+    </script>
+</body>
+</html>
